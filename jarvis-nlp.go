@@ -24,17 +24,26 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"github.com/jarvisos/nlp/network"
 	"github.com/jarvisos/nlp/settings"
 )
 
 func main() {
+	// Load the settings
 	err := settings.Settings.LoadSettings()
 	if err != nil {
 		fmt.Printf("Error reading config file %v\n", err)
 		return
 	}
+
+	// Get the command line flags
+	newNet := flag.Bool("n", false, "Forces the program to generate a new neural network")
+	flag.Parse()
+
+	// Set any settings based on flags
+	settings.Settings.NewNetwork = *newNet
 
 	// Initialize the network
 	net := network.SigmoidNeuronNetwork{}
