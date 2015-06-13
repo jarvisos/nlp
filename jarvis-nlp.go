@@ -37,7 +37,7 @@ func main() {
 
 	// Initialize the network
 	net := network.SigmoidNeuronNetwork{}
-	net.Initialize(Settings.NewNetwork)
+	net.Initialize(Settings.NewNetwork())
 
 	// Process a line
 	net.Process()

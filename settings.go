@@ -33,7 +33,15 @@ import (
 var Settings settings
 
 type settings struct {
-	NewNetwork bool
+	newNetwork bool
+}
+
+func (s *settings) setNewNetwork(value bool) {
+	s.newNetwork = value
+}
+
+func (s *settings) NewNetwork() bool {
+	return s.newNetwork
 }
 
 func (s *settings) SaveSettings() error {
