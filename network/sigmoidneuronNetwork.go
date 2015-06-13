@@ -35,6 +35,8 @@ type SigmoidNeuronNetwork struct {
 }
 
 func (n *SigmoidNeuronNetwork) Initialize(newNetwork bool) bool {
+	fmt.Println("Initializing Neural Network")
+
 	if newNetwork == true {
 		n.createNew()
 	} else {
@@ -59,6 +61,8 @@ func (n *SigmoidNeuronNetwork) createNew() {
 }
 
 func (n *SigmoidNeuronNetwork) Process() *mat64.Vector {
+	fmt.Println("Processing input")
+
 	// Generate first level of input
 	in := mat64.NewVector(40000, nil)
 
@@ -71,6 +75,8 @@ func (n *SigmoidNeuronNetwork) SetInput(in string) {
 }
 
 func (n *SigmoidNeuronNetwork) Destroy() bool {
+	fmt.Println("Cleaning up network")
+
 	err := n.saveToFile()
 
 	if err != nil {

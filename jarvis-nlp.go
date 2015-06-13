@@ -24,48 +24,24 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/jarvisos/nlp/network"
-	"io/ioutil"
 )
 
-type settings struct {
-	NewNetwork bool
-}
-
 func main() {
-	mySettings, err := readConfigFile()
+	err := Settings.LoadSettings()
 	if err != nil {
 		fmt.Printf("Error reading config file %v\n", err)
 		return
 	}
 
-	fmt.Println("Initializing network")
+	// Initialize the network
 	net := network.SigmoidNeuronNetwork{}
-	net.Initialize(mySettings.NewNetwork)
+	net.Initialize(Settings.NewNetwork)
 
-	fmt.Println("Running network")
+	// Process a line
 	net.Process()
 
-	fmt.Println("Destroy network")
+	// Destroy the network
 	net.Destroy()
-}
-
-func readConfigFile() (result *settings, err error) {
-	result = &settings{}
-
-	// Open the configuration file
-	fmt.Println("Reading Config File")
-	fileData, err := ioutil.ReadFile("config.json")
-	if err != nil {
-		return result, err
-	}
-
-	err = json.Unmarshal(fileData, result)
-	if err != nil {
-		return result, err
-	}
-
-	return result, nil
 }
