@@ -27,6 +27,7 @@ import (
 	"encoding/gob"
 	"fmt"
 	"github.com/gonum/matrix/mat64"
+	"github.com/jarvisos/nlp/settings"
 	"os"
 )
 
@@ -35,6 +36,8 @@ type SigmoidNeuronNetwork struct {
 }
 
 func (n *SigmoidNeuronNetwork) Initialize(newNetwork bool) bool {
+	fmt.Println("Initializing Neural Network")
+
 	if newNetwork == true {
 		n.createNew()
 	} else {
@@ -59,6 +62,8 @@ func (n *SigmoidNeuronNetwork) createNew() {
 }
 
 func (n *SigmoidNeuronNetwork) Process() *mat64.Vector {
+	fmt.Println("Processing input")
+
 	// Generate first level of input
 	in := mat64.NewVector(40000, nil)
 
@@ -71,6 +76,8 @@ func (n *SigmoidNeuronNetwork) SetInput(in string) {
 }
 
 func (n *SigmoidNeuronNetwork) Destroy() bool {
+	fmt.Println("Cleaning up network")
+
 	err := n.saveToFile()
 
 	if err != nil {
@@ -102,6 +109,10 @@ func (n *SigmoidNeuronNetwork) loadFromFile() error {
 
 func (n *SigmoidNeuronNetwork) saveToFile() error {
 	fmt.Println("Saving nework to file")
+
+	// Change settings to load saved network
+	settings.Settings.NewNetwork = false
+	settings.Settings.SaveSettings()
 
 	file, err := os.OpenFile("network.gob", os.O_TRUNC|os.O_WRONLY|os.O_CREATE, os.FileMode(0666))
 	if err != nil {

@@ -24,48 +24,34 @@
 package main
 
 import (
-	"encoding/json"
+	"flag"
 	"fmt"
 	"github.com/jarvisos/nlp/network"
-	"io/ioutil"
+	"github.com/jarvisos/nlp/settings"
 )
 
-type settings struct {
-	NewNetwork bool
-}
-
 func main() {
-	mySettings, err := readConfigFile()
+	// Load the settings
+	err := settings.Settings.LoadSettings()
 	if err != nil {
 		fmt.Printf("Error reading config file %v\n", err)
 		return
 	}
 
-	fmt.Println("Initializing network")
-	net := network.SigmoidNeuronNetwork{}
-	net.Initialize(mySettings.NewNetwork)
+	// Get the command line flags
+	newNet := flag.Bool("n", false, "Forces the program to generate a new neural network")
+	flag.Parse()
 
-	fmt.Println("Running network")
+	// Set any settings based on flags
+	settings.Settings.NewNetwork = *newNet
+
+	// Initialize the network
+	net := network.SigmoidNeuronNetwork{}
+	net.Initialize(settings.Settings.NewNetwork)
+
+	// Process a line
 	net.Process()
 
-	fmt.Println("Destroy network")
+	// Destroy the network
 	net.Destroy()
-}
-
-func readConfigFile() (result *settings, err error) {
-	result = &settings{}
-
-	// Open the configuration file
-	fmt.Println("Reading Config File")
-	fileData, err := ioutil.ReadFile("config.json")
-	if err != nil {
-		return result, err
-	}
-
-	err = json.Unmarshal(fileData, result)
-	if err != nil {
-		return result, err
-	}
-
-	return result, nil
 }
