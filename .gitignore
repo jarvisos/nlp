@@ -3,6 +3,9 @@
 *.a
 *.so
 
+# Network saves
+network.gob
+
 # Folders
 _obj
 _test
