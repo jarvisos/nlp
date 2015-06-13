@@ -5,6 +5,7 @@
 
 # Network saves
 network.gob
+config.json
 
 # Folders
 _obj
