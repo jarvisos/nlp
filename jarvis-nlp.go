@@ -26,10 +26,11 @@ package main
 import (
 	"fmt"
 	"github.com/jarvisos/nlp/network"
+	"github.com/jarvisos/nlp/settings"
 )
 
 func main() {
-	err := Settings.LoadSettings()
+	err := settings.Settings.LoadSettings()
 	if err != nil {
 		fmt.Printf("Error reading config file %v\n", err)
 		return
@@ -37,7 +38,7 @@ func main() {
 
 	// Initialize the network
 	net := network.SigmoidNeuronNetwork{}
-	net.Initialize(Settings.NewNetwork())
+	net.Initialize(settings.Settings.NewNetwork)
 
 	// Process a line
 	net.Process()

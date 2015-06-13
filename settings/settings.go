@@ -21,7 +21,7 @@
    Date: 06.12.2015
 */
 
-package main
+package settings
 
 import (
 	"encoding/json"
@@ -33,17 +33,10 @@ import (
 var Settings settings
 
 type settings struct {
-	newNetwork bool
+	NewNetwork bool
 }
 
-func (s *settings) setNewNetwork(value bool) {
-	s.newNetwork = value
-}
-
-func (s *settings) NewNetwork() bool {
-	return s.newNetwork
-}
-
+// Saves the settings to the default config file (config.json)
 func (s *settings) SaveSettings() error {
 	// Open the configuration file
 	fmt.Println("Saving Config File")
@@ -60,6 +53,7 @@ func (s *settings) SaveSettings() error {
 	return nil
 }
 
+// Loads the settings from the default config file (config.json)
 func (s *settings) LoadSettings() error {
 	// Open the configuration file
 	fmt.Println("Reading Config File")

@@ -27,6 +27,7 @@ import (
 	"encoding/gob"
 	"fmt"
 	"github.com/gonum/matrix/mat64"
+	"github.com/jarvisos/nlp/settings"
 	"os"
 )
 
@@ -108,6 +109,10 @@ func (n *SigmoidNeuronNetwork) loadFromFile() error {
 
 func (n *SigmoidNeuronNetwork) saveToFile() error {
 	fmt.Println("Saving nework to file")
+
+	// Change settings to load saved network
+	settings.Settings.NewNetwork = false
+	settings.Settings.SaveSettings()
 
 	file, err := os.OpenFile("network.gob", os.O_TRUNC|os.O_WRONLY|os.O_CREATE, os.FileMode(0666))
 	if err != nil {
